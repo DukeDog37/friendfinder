@@ -3,6 +3,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
+//var friends = require("data/data");
 
 // Sets up the Express App
 // =============================================================
@@ -15,8 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
-// Star Wars Characters (DATA)
+// friends (DATA)
 // =============================================================
+
 var friends = [{
     name: "Jason",
     email: "jason@gmail.com",
@@ -87,7 +89,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/survey", function(req, res) {
-  res.sendFile(path.join(__dirname, "app/routing/add.html"));
+  res.sendFile(path.join(__dirname, "app/routing/survey.html"));
 });
 
 app.get("/all", function(req, res) {
@@ -99,7 +101,7 @@ app.get("/match/:image?", function(req, res) {
   res.sendFile(path.join(__dirname, "app/data/" + reqImg));
 });
 
-// Search for Specific Character (or all characters) - provides JSON
+// Search for Specific friend (or all friends) - provides JSON
 app.get("/api/:friends?", function(req, res) {
   var chosen = req.params.friends;
 
@@ -121,15 +123,11 @@ app.get("/api/:friends?", function(req, res) {
 app.post("/api/new", function(req, res) {
   var newFriend = req.body;
   newFriend.name = newFriend.name.replace(/\s+/g, "").toLowerCase();
-  //console.log(newFriend);
   //call function to compare new friend to all in array and find best match
   //the best match should be the response data from this post
   var bestFriend = fnCompareScores(friends, newFriend);
   friends.push(newFriend);
   return res.json(bestFriend);
-
-  //show new friend suggestion
-  //console.log(bestFriend.image);
 });
 
 // Starts the server to begin listening
@@ -165,7 +163,6 @@ function fnCompareScores(friends, newFriend){
       }
       
   }
-      //console.log(existingFriends[idxBestMatch]);
       return existingFriends[idxBestMatch];
 
 }

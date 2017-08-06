@@ -43,10 +43,9 @@
         wellSection.addClass("well");
         wellSection.attr("id", "friends-well-" + i);
         $("#well-section").append(wellSection);
-
+        $("#friends-well-" + i).append("<img src= " + data[i].image + " alt='None Found'</img>");
         $("#friends-well-" + i).append("<h2>" + data[i].name + "</h2>");
         $("#friends-well-" + i).append("<h3>email: " + data[i].email + "</h4>");
-        $("#friends-well-" + i).append("<h3>image: " + data[i].image + "</h4>");
         $("#friends-well-" + i).append("<h3>scores: " + data[i].scores + "</h4>");
       }
     });
