@@ -6,8 +6,6 @@
   <!-- Latest compiled and minified CSS & JS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   
-  <!-- <script src=“https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js” integrity=“sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa” crossorigin=“anonymous”></script> -->
-
 </head>
 <body>
 
@@ -16,8 +14,8 @@
       <h1>Friend_Finder</h1>
       <h3>You must complete all survey questions!</h3>
       <hr>
-      <a href="/"><button type="button" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-eye-open"></span> Home</button></a>
-      <a href="/all"><button type="button" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-th-list"></span> All Registered Friends</button></a>
+      <a href="/"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-eye-open"></span> Home</button></a>
+      <a href="/all"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-th-list"></span> All Registered Friends</button></a>
     </div>
     <div class="row">
 
@@ -28,10 +26,10 @@
             <h3 class="panel-title"><strong>Survey Questions</strong></h3>
           </div>
           <div class="panel-body">
-            <form role="form">
+            <form id="myForm" role="form">
 
               <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">Name (Required)</label>
                 <input type="text" class="form-control" id="name">
               </div>
 
@@ -41,7 +39,7 @@
               </div>
 
               <div class="form-group">
-                <label for="image">Image</label>
+                <label for="image">Image (Required)</label>
                 <input type="text" class="form-control" id="image">
               </div>
 
@@ -179,9 +177,38 @@
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-    // Question: What does this code do?
+
+    function validateForm() {
+      /*var x = $("#name").val();
+      var y = $("#image").val();
+      if (x == "") {
+          alert("Name must be filled out");
+          return false;
+      }
+      if (y == "") {
+          alert("Must supply image path.  Example: https://www.fillmurray.com/g/200/300");
+          return false;
+      }*/
+      //loop through all elements of form and check for value
+      var a = document.getElementById("myForm");
+      var txt = "";
+      var i;
+      for (i = 0; i < a.length; i++) {
+          if(a.elements[i].value == ""){
+            alert("You must fill out all survey items please.");
+            return false;
+          }
+      }
+    }
+    
     $("#add-btn").on("click", function(event) {
       event.preventDefault();
+      if(validateForm() == false){
+
+      }
+      else{
+
+
       //loop through to get scores
       var arrScores = [];
       arrScores.push($("#q1").val().trim());
@@ -205,7 +232,7 @@
       $.post("/api/new", newFriend)
       .done(function(data) {
         console.log(data);
-        alert("Adding to firends registry....finding match");
+        alert("Adding to friends registry....finding match");
         //console.log(data.image);
        
         $('#bestMatch').attr("src", data.image);
@@ -214,8 +241,9 @@
         
         
       });
-
+      }
     });
+
   </script>
 </body>
 </html>
